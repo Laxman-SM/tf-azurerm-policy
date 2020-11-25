@@ -40,7 +40,7 @@ resource "azurerm_policy_definition" "auditRoleAssignmentType_user" {
 
   metadata = <<METADATA
     {
-    "category": "${var.policy_definition_category}",
+    "category": var.policy_definition_category,
     "version" : "1.0.0"
     }
 METADATA
