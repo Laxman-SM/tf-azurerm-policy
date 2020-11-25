@@ -3,7 +3,7 @@ terraform {
   required_providers {
     azurerm = {
       source  = "hashicorp/azurerm"
-      version = ">= 2.33.0"
+      version = ">= 2.37.0"
     }
     random = {
       source = "hashicorp/random"
@@ -88,6 +88,6 @@ PARAMETERS
 }
 
 output "auditRoleAssignmentType_user_policy_id" {
-  value       = "azurerm_policy_definition.auditRoleAssignmentType_user.id"
+  value       = azurerm_policy_definition.auditRoleAssignmentType_user.id
   description = "The policy definition id for auditRoleAssignmentType_user"
 }
