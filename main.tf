@@ -40,7 +40,7 @@ resource "azurerm_policy_definition" "auditRoleAssignmentType_user" {
 
   metadata = <<METADATA
     {
-    "category": var.policy_definition_category,
+    "category": "$(var.policy_definition_category}",
     "version" : "1.0.0"
     }
 METADATA
@@ -87,11 +87,7 @@ PARAMETERS
 
 }
 
-/**
-
 output "auditRoleAssignmentType_user_policy_id" {
   value       = azurerm_policy_definition.auditRoleAssignmentType_user.id
   description = "The policy definition id for auditRoleAssignmentType_user"
 }
-
-**/
