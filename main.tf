@@ -92,49 +92,29 @@ output "auditRoleAssignmentType_user_policy_id" {
 
 ########################################################################################
 
-# passing array parameter to AzureRM policyset resource 
+resource "azurerm_role_definition" "roleDefinitions__policymanager" {
+  name               = "Gap Policy Manager"
+  role_definition_id = ""
+  description        = "Lets you manage policies."
+  scope              = ""
 
-variable "policyset_definitions" {
-  type        = list
-  description = "array of built-in policy definitions"
-  default = [
-    "Allowed locations for resource groups"
+  permissions {
+    data_actions = []
+
+    not_data_actions = []
+
+    actions = [
+      "Microsoft.Authorization/PolicyDefinitions/*",
+      "Microsoft.Authorization/policySetDefinitions/*",
+      "Microsoft.Authorization/policyAssignments/*",
+    ]
+
+    not_actions = []
+  }
+
+  assignable_scopes = [
+    "/subscriptions/48083211-8473-4e32-bc11-f0058b227fd5",
+    "/subscriptions/8534e7bb-0c6b-4358-9861-7e972e81a5ea",
   ]
 }
 
-data "azurerm_policy_definition" "policyset_definitions" {
-  count        = length(var.policyset_definitions)
-  display_name = var.policyset_definitions[count.index]
-}
-
-resource "azurerm_policy_set_definition" "custompolicyset" {
-  name         = "CustomPolicySet"
-  policy_type  = "Custom"
-  display_name = "CustomPolicySet"
-
-  parameters = <<PARAMETERS
-    {
-        "allowedLocations": {
-            "type": "Array",
-            "metadata": {
-                "description": "The list of locations that resource groups can be created in.",
-                "displayName": "Allowed locations",
-                "strongType": "location"
-            },
-            "defaultValue": [
-                "australiaeast",
-                "australiasoutheast"
-                ]
-        }
-    }
-PARAMETERS
-
-  policy_definition_reference {
-    policy_definition_id = data.azurerm_policy_definition.policyset_definitions.*.id[0]
-    parameter_values     = <<VALUE
-    {
-      "listOfAllowedLocations": {"value": "[parameters('allowedLocations')]"}
-    }
-    VALUE
-  }
-}
