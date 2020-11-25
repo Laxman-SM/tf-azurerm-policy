@@ -26,7 +26,7 @@ jobs:
     - uses: hashicorp/setup-terraform@v1.2.1
       with:
         cli_config_credentials_hostname: app.terraform.io
-        cli_config_credentials_token: ${{ secrets.TF_TOKEN }}
+        cli_config_credentials_token: ${{ secrets.TF_TOKEN_A }}
         terraform_version: 0.13.5
     
     - name: Terraform fmt
